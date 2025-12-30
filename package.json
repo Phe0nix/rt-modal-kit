@@ -1,0 +1,22 @@
+{
+  "name": "rt-modal-kit",
+  "version": "1.0.0",
+  "description": "A flexible, accessible modal for React with multiple configuration options and sensible defaults. Easy to use for your daily work.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "author": "Pranab Dey",
+  "peerDependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
+  },
+  "keywords": [
+    "react",
+    "component",
+    "library",
+    "rollup",
+    "css-modules",
+    "scss",
+    "Modal"
+  ]
+}
