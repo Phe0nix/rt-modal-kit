@@ -4,10 +4,10 @@ A flexible, accessible modal for React with multiple configuration options and s
 ---
 
 ## 🚀 Basic Usage
-You can use this Modal kit by just taking `index.js` from dist/ folder. You can get the raw .tsx file inside src/ directory.
+You can use this Modal kit by just import `index.mjs` from dist/ folder. You can get the raw .tsx file inside src/ directory.
 ```tsx
 import React, { useState } from "react";
-import {Modal} from "rt-modal-kit";
+import {Modal} from "dist/index.mjs";
 
 export default function App() {
   const [open, setOpen] = useState(false);
