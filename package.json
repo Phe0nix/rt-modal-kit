@@ -21,8 +21,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -p tsconfig.build.json && vite build",
+    "build:demo": "vite build demo",
     "lint": "eslint .",
-    "demo": "vite --root demo",
+    "demo": "vite demo",
     "preview": "vite preview"
   },
   "repository": {
