@@ -2,7 +2,6 @@
 
 
 [![npm version](https://img.shields.io/npm/v/rt-modal-kit?style=flat-square)](https://www.npmjs.com/package/rt-modal-kit)
-[![Build Status](https://github.com/Phe0nix/rt-modal-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/Phe0nix/rt-modal-kit/actions)
 [![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
 
 A flexible, accessible modal for React with built-in light/dark themes, customizable layouts, and sensible accessibility defaults.
