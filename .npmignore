@@ -1,0 +1,10 @@
+src/
+node_modules/
+dist-ssr/
+public/
+.github/
+.vscode/
+*.log
+package-lock.json
+tsconfig.*
+*.map
