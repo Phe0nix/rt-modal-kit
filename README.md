@@ -1,103 +1,77 @@
 # ✨ rt-modal-kit
 A flexible, accessible modal for React with multiple configuration options and sensible defaults. Easy to use for your daily work.
 
----
-
 ## 🚀 Basic Usage
-You can use this Modal kit by just import `index.mjs` from dist/ folder. You can get the raw .tsx file inside src/ directory.
+
+1. Import the component: `import Modal from './Modal'`.
+2. Control visibility via state and pass a `close` callback.
+
+Example:
+
 ```tsx
-import React, { useState } from "react";
-import {Modal} from "dist/index.mjs";
+import { useState } from 'react'
+import Modal from './Modal'
 
-export default function App() {
-  const [open, setOpen] = useState(false);
-
+function Page() {
+  const [open, setOpen] = useState(false)
   return (
     <>
       <button onClick={() => setOpen(true)}>Open Modal</button>
-      <Modal open={open} close={() => setOpen(false)}>
-        <p>This is the modal content.</p>
+      <Modal open={open} close={() => setOpen(false)} size="md" theme="light">
+        <h2>Content</h2>
+        <p>Put any JSX here.</p>
       </Modal>
     </>
-  );
+  )
 }
 ```
 
----
+## Props
 
-## 🛠️ Props Overview
+Below is a concise props reference. See the source for types and examples: [src/Modal.tsx](src/Modal.tsx).
 
 | 🔑 Prop | 🧩 Type | 🎯 Default | 📝 Description |
-|---------|---------|-----------|---------------|
-| **open** | `boolean` | `false` | Controls modal visibility. |
-| **close** | `() => void` | **Required** | Function to close the modal. |
-| **size** | `"xs"/"sm"/"md"/"lg"/"xl"` | `"xs"` | Modal size. |
-| **header** | `boolean` | `true` | Show header section. |
-| **footer** | `boolean` | `true` | Show footer section. |
-| **headerContent** | `ReactNode` | `"Modal Header"` | Custom header text or element. |
-| **footerContent** | `ReactNode` | `"Modal Footer"` | Custom footer text or element. |
-| **showCloseButton** | `boolean` | `true` | Show footer close button. |
-| **closeButtonAlignment** | `"left"/"center"/"right"` | `"right"` | Align footer close button. |
-| **closeButtonFullWidth** | `boolean` | `false` | Make footer close button full width. |
-| **fullScreen** | `boolean` | `false` | Make modal full screen. |
-| **closeOnBackdropClick** | `boolean` | `true` | Close modal when clicking backdrop. |
-| **closeOnEsc** | `boolean` | `true` | Close modal on `Escape` key press. |
-| **portal** | `HTMLElement` | `document.body` | DOM node to render modal via portal. |
-| **role** | `"dialog"/"alertdialog"` | `"dialog"` | Accessibility role. |
-| **className** | `"string"` | `""` | Custom class for modal container. |
-| **contentClassName** | `"string"` | `""` | Custom class for modal body. |
-| **backdropClassName** | `"string"` | `""` | Custom class for backdrop. |
-| **modalStyle** | `"CSSProperties"` | `""` | Inline styles for modal container. |
-| **contentStyle** | `"CSSProperties"` | `""` | Inline styles for modal body. |
-| **backdropStyle** | `"CSSProperties"` | `""` | Inline styles for modal backdrop. |
-| **id** | `"string"` | `""` | Custom id for modal container. |
-| **contentId** | `"string"` | `""` | Custom id for modal body. |
-| **backdropId** | `"string"` | `""` | Custom id for backdrop. |
+|---|---|---|---|
+| `theme` | `"light" \| "dark"` | `"light"` | Visual theme of the modal container. |
+| `size` | `ModalSize` (`"xs"`..`"xl"`) | `"md"` | Controls width (max-width) of the modal. |
+| `open` | `boolean` | `false` | Whether modal is open. |
+| `close` | `() => void` | *required* | Callback to close the modal. |
+| `variant` | `ModalVariant` | `"default"` | Layout variant, e.g. `"bottom-sheet"`. |
+| `preventClose` | `boolean` | `false` | If true, prompts before closing. |
+| `onCloseReason` | `(reason: CloseReason) => void` | `undefined` | Called with close reason (`backdrop`, `escape`, etc.). |
+| `header` | `HFType` | `{ active: true, title: 'Modal Header', id: '', className: '', alignment: 'left' }` | Header content/props. |
+| `footer` | `HFType` | `{ active: true, title: 'Modal Footer', id: '', className: '', alignment: 'left' }` | Footer content/props. |
+| `showTopClose` | `boolean` | `true` | Show top-right close button. |
+| `showFooterCloseButton` | `boolean` | `true` | Show footer close action button. |
+| `closeButtonAlignment` | `"right" \| "center" \| "left"` | `"right"` | Alignment for footer close button. |
+| `closeButtonFullWidth` | `boolean` | `false` | Make footer close button full width. |
+| `fullScreen` | `boolean` | `false` | Render modal fullscreen. |
+| `closeOnBackdropClick` | `boolean` | `true` | Close when clicking backdrop. |
+| `closeOnEsc` | `boolean` | `true` | Close on Escape key. |
+| `modalId` | `string` | `""` | `id` for modal container. |
+| `contentId` | `string` | `""` | `id` for content region. |
+| `backdropId` | `string` | `""` | `id` for backdrop element. |
+| `modalClassName` | `string` | `""` | Additional class for modal container. |
+| `contentClassName` | `string` | `""` | Additional class for content area. |
+| `backdropClassName` | `string` | `""` | Additional class for backdrop. |
+| `modalStyle` | `React.CSSProperties` | `{}` | Inline styles for modal container. |
+| `contentStyle` | `React.CSSProperties` | `{}` | Inline styles for content area. |
+| `backdropStyle` | `React.CSSProperties` | `{}` | Inline styles for backdrop. |
+| `initialFocusRef` | `RefObject<HTMLElement>` | `undefined` | Element to focus when modal opens. |
+| `restoreFocus` | `boolean` | `true` | Restore focus to previously focused element on close. |
+| `inertBackground` | `boolean` | `true` | Make background inert/aria-hidden while open. |
+| `ariaLabel` | `string` | `undefined` | Accessible label when no header/title provided. |
+| `role` | `ModalRole` | `"dialog"` | ARIA role for modal. |
+| `portal` | `HTMLElement \| null` | `null` | Host element for portal (defaults to `document.body`). |
+| `children` | `React.ReactNode` | `undefined` | Modal body content. |
 
----
+If you want a live example, open `src/App.tsx` or run the dev server.
 
-## 🎨 Styling Overrides
-- The modal uses **CSS Modules + SCSS** internally.✅
-- You can override styles in 3 ways:
-  
-  1. **Custom id names**:
-     ```tsx
-     <Modal
-       open={open}
-       close={() => setOpen(false)}
-       id="my-modal"
-       contentId="modal-body-id"
-       backdropId="backdrop-id"
-     >
-       Custom styled modal
-     </Modal>
-     ```
-  2. **Custom class names**:
-     ```tsx
-     <Modal
-       open={open}
-       close={() => setOpen(false)}
-       className="my-modal"
-       contentClassName="my-modal-body"
-       backdropClassName="my-backdrop"
-     >
-       Custom styled modal
-     </Modal>
-     ```
-  3. **Inline styles**:
-     ```tsx
-     <Modal
-       open={open}
-       close={() => setOpen(false)}
-       modalStyle={{ backgroundColor: "#fff" }}
-       contentStyle={{ padding: "2rem" }}
-       backdropStyle={{ backgroundColor: "rgba(0,0,0,0.8)" }}
-     >
-       Inline styled modal
-     </Modal>
-     ```
-
----
+## 📦 Using in your project
+- Copy `src/Modal.tsx` and `src/Modal.module.scss` into your app.
+- Ensure your build supports CSS Modules. If not, convert the styles to plain CSS and import the class names accordingly.
+- The modal uses a React portal by default, so you do not need an extra wrapper element.
+- Required props are `open` and `close`.
 
 ## ♿ Accessibility Features
 - ✅ `aria-modal="true"` for screen readers.
@@ -106,8 +80,6 @@ export default function App() {
 - ✅ Locks body scroll when modal is open.
 - ✅ Semantic roles: `dialog` or `alertdialog`.
 
----
-
 ## ⚡ Performance Considerations
 - ✅ Uses **React Portal** for isolation.
 - ✅ Conditional rendering: mounts only when `open` is true.
@@ -115,18 +87,12 @@ export default function App() {
 - ✅ Scoped styles via CSS Modules.
 - ✅ Keep modal content lightweight for best performance.
 
----
-
 ## ✅ Quick Summary
 - 🔹 **Easy to use**: Just pass `open` and `close`.
 - 🔹 **Highly configurable**: Sizes, header/footer, close behavior.
 - 🔹 **Accessible by default**: ARIA roles, ESC key support.
 - 🔹 **Customizable styles**: CSS Modules, class and id overrides, inline styles.
 - 🔹 **Optimized for performance**: Portals, conditional rendering.
-
-
-
----
 
 ## 🔍 Advanced Usage Examples
 
@@ -154,8 +120,8 @@ export default function App() {
 <Modal
   open={open}
   close={() => setOpen(false)}
-  headerContent={<h3>Custom Header</h3>}
-  footerContent={<span>Custom Footer</span>}
+  header={{ active: true, title: 'Custom Header', alignment: 'center' }}
+  footer={{ active: true, title: 'Custom Footer', alignment: 'center' }}
 >
   <p>Custom content inside modal.</p>
 </Modal>
