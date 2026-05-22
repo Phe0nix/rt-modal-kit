@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Modal } from '../src/Modal'
+import Modal from '../src/Modal'
 
 export default function DemoApp(){
   const [openLight, setOpenLight] = useState(false)
