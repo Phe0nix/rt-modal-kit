@@ -1,5 +1,27 @@
 # ✨ rt-modal-kit
-A flexible, accessible modal for React with multiple configuration options and sensible defaults. Easy to use for your daily work.
+
+[![npm version](https://img.shields.io/npm/v/rt-modal-kit?style=flat-square)](https://www.npmjs.com/package/rt-modal-kit) [![GitHub](https://img.shields.io/badge/github-Phe0nix/rt--modal--kit-24292e?style=flat-square)](https://github.com/Phe0nix/rt-modal-kit)
+
+A flexible, accessible modal for React with built-in light/dark themes, customizable layouts, and sensible accessibility defaults.
+
+Install
+
+```bash
+npm install rt-modal-kit
+# or
+yarn add rt-modal-kit
+```
+
+Note: `react` and `react-dom` are peer dependencies — ensure they are installed in your project.
+
+Import
+
+```tsx
+import { Modal } from 'rt-modal-kit'
+import 'rt-modal-kit/dist/index.css'
+```
+
+You can also import the component source directly if you copied the files into your project.
 
 ## 🚀 Basic Usage
 
@@ -137,3 +159,23 @@ If you want a live example, open `src/App.tsx` or run the dev server.
   <p>Footer close button is centered.</p>
 </Modal>
 ```
+
+## 📦 Publish to npm
+
+This package can be published once the build outputs are generated.
+
+1. Run:
+```bash
+npm install
+npm run build
+```
+2. Log in to npm if needed:
+```bash
+npm login
+```
+3. Publish:
+```bash
+npm publish --access public
+```
+
+If you want to ensure the package is published with built output only, the package uses `dist/` and `dist/types/` as the published entry points.
