@@ -1,5 +1,5 @@
 
-import React, { useCallback, useState, useEffect, useMemo, useRef } from "react";
+import React, { useCallback, useMemo, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Modal.module.scss";
 
@@ -9,7 +9,7 @@ type ModalRole = "dialog" | "alertdialog";
 type ModalVariant = "default" | "bottom-sheet";
 type CloseReason = "backdrop" | "escape" | "programmatic" | "action:closeButton" | "action:footerClose";
 
-type HFType = {
+export type HFType = {
   active?: boolean;
   title?: React.ReactNode;
   id?: string;
@@ -17,7 +17,7 @@ type HFType = {
   alignment?: React.CSSProperties['textAlign'];
 };
 
-interface ModalProps {
+export interface ModalProps {
   theme?: "light" | "dark";
   size?: ModalSize;
   open: boolean;
@@ -95,7 +95,7 @@ const Modal: React.FC<ModalProps> = ({
   const previousFocus = useRef<HTMLElement | null>(null);
   const mergeHeader = useMemo(()=>({...defaultHeaderVal, ...header}), [header]);
   const mergeFooter = useMemo(()=>({...defaultFooterVal, ...footer}), [footer]);
-  const [host, setHost] = useState<HTMLElement | null>(null);
+  const host = portal ?? (typeof document !== 'undefined' ? document.body : null);
 
   const modalBodyA11y: React.HTMLAttributes<HTMLDivElement> = {
     "aria-describedby": "modal_description",
@@ -118,10 +118,7 @@ const Modal: React.FC<ModalProps> = ({
     }
   }, [open, labelledBy, ariaLabelSafe]);
 
-  // SSR safe portal
-  useEffect(()=>{
-    setHost(portal ?? document.body);
-  }, [portal]);
+  // SSR safe portal (host computed directly)
 
   // prevent modal auto close
   const handleAttemptClose = useCallback(async(reason: CloseReason) => {
@@ -193,7 +190,7 @@ const Modal: React.FC<ModalProps> = ({
 
     return () => {
       document.removeEventListener("keydown", trapFocus);
-      restoreFocus && previousFocus.current?.focus(); // Restore focus on close
+      if (restoreFocus) previousFocus.current?.focus(); // Restore focus on close
     };
   }, [open, initialFocusRef, restoreFocus]);
 
@@ -201,7 +198,12 @@ const Modal: React.FC<ModalProps> = ({
   useEffect(() => {
     if (!open || !closeOnEsc) return;
 
-    const handler = (e: KeyboardEvent) => e.key === "Escape" && closeOnEsc && (e.stopPropagation(), handleAttemptClose("escape"));
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && closeOnEsc) {
+        e.stopPropagation();
+        handleAttemptClose("escape");
+      }
+    };
 
     document.addEventListener("keydown", handler, true);
     return () => document.removeEventListener("keydown", handler, true);
@@ -219,7 +221,10 @@ const Modal: React.FC<ModalProps> = ({
     };
     backdropElm.addEventListener("click", handler, true);
     backdropElm.addEventListener("mousedown", handler, true);
-    return () => (backdropElm.removeEventListener("click", handler, true), backdropElm.removeEventListener("mousedown", handler, true));
+    return () => {
+      backdropElm.removeEventListener("click", handler, true);
+      backdropElm.removeEventListener("mousedown", handler, true);
+    };
   }, [open, closeOnBackdropClick, handleAttemptClose]);
 
   //inert background
@@ -230,22 +235,27 @@ const Modal: React.FC<ModalProps> = ({
     const backdropElm = backdropRef.current;
     const siblings: Element[] = Array.from(bodyElm.children).filter(el => el !== modalElm && el !== backdropElm);
     const prev: { el: Element; inert?: boolean; ariaHidden: string | null }[] = [];
-    
+
     siblings.forEach((el) => {
-      prev.push({ el, inert: (el as any).inert, ariaHidden: el.getAttribute('aria-hidden') });
+      const prevInert = (el as HTMLElement & { inert?: boolean }).inert;
+      prev.push({ el, inert: prevInert, ariaHidden: el.getAttribute('aria-hidden') });
       try {
-        (el as any).inert = true;
-      } catch {}
+        (el as HTMLElement & { inert?: boolean }).inert = true;
+      } catch (err) {
+        void err;
+      }
       el.setAttribute('aria-hidden', 'true');
     });
-    
+
     return () => {
       prev.forEach(({ el, inert, ariaHidden }) => {
         try {
-          (el as any).inert = inert ?? false;
-        } catch {}
+          (el as HTMLElement & { inert?: boolean }).inert = inert ?? false;
+        } catch (err) {
+          void err;
+        }
         if (ariaHidden === null) el.removeAttribute('aria-hidden');
-        else el.setAttribute('aria-hidden', ariaHidden);
+        else el.setAttribute('aria-hidden', ariaHidden as string);
       });
     };
   }, [open, inertBackground]);

@@ -1,3 +1,4 @@
+import path from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -5,6 +6,12 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
+    lib: {
+      entry: path.resolve(__dirname, 'src/index.ts'),
+      name: 'RtModalKit',
+      fileName: 'rt-modal-kit',
+      formats: ['es', 'cjs'],
+    },
     target: 'es2018',
     minify: 'terser',
     sourcemap: false,
@@ -20,12 +27,11 @@ export default defineConfig({
     },
     cssCodeSplit: true,
     rollupOptions: {
+      external: ['react', 'react-dom'],
       output: {
-        manualChunks(id: string) {
-          if (id.includes('node_modules')) {
-            const parts = id.split('node_modules/')[1].split('/')
-            return parts[0]
-          }
+        globals: {
+          react: 'React',
+          'react-dom': 'ReactDOM',
         },
       },
     },

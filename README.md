@@ -162,23 +162,3 @@ If you want a live example, open `src/App.tsx` or run the dev server.
   <p>Footer close button is centered.</p>
 </Modal>
 ```
-
-## 📦 Publish to npm
-
-This package can be published once the build outputs are generated.
-
-1. Run:
-```bash
-npm install
-npm run build
-```
-2. Log in to npm if needed:
-```bash
-npm login
-```
-3. Publish:
-```bash
-npm publish --access public
-```
-
-If you want to ensure the package is published with built output only, the package uses `dist/` and `dist/types/` as the published entry points.

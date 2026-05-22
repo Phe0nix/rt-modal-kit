@@ -1,19 +1,48 @@
 {
   "name": "rt-modal-kit",
-  "private": true,
-  "version": "0.0.0",
+  "private": false,
+  "version": "1.0.0",
+  "description": "A lightweight, accessible React modal component with built-in light/dark themes, customizable layouts, and keyboard-friendly behavior.",
   "type": "module",
+  "main": "dist/rt-modal-kit.cjs",
+  "module": "dist/rt-modal-kit.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/rt-modal-kit.js",
+      "require": "./dist/rt-modal-kit.cjs",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -p tsconfig.build.json && vite build",
     "lint": "eslint .",
+    "demo": "vite --root demo",
     "preview": "vite preview"
   },
-  "peerDependencies": {
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Phe0nix/rt-modal-kit.git"
   },
-  "dependencies": {
+  "bugs": {
+    "url": "https://github.com/Phe0nix/rt-modal-kit/issues"
+  },
+  "homepage": "https://github.com/Phe0nix/rt-modal-kit#readme",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "modal",
+    "react-modal",
+    "ui",
+    "typescript",
+    "accessible"
+  ],
+  "peerDependencies": {
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
   },
@@ -31,7 +60,10 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
     "sass-embedded": "^1.99.0",
+    "terser": "^5.17.1",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
     "vite": "^8.0.12"
