@@ -20,7 +20,9 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -p tsconfig.build.json && vite build",
+    "build": "vite build && tsc -p tsconfig.build.json",
+    "verify:pack": "node scripts/verify-pack.mjs",
+    "prepublishOnly": "npm run build && npm run verify:pack",
     "lint": "eslint .",
     "preview": "vite preview"
   },

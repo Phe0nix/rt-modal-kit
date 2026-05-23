@@ -2,6 +2,7 @@
 
 
 [![npm version](https://img.shields.io/npm/v/rt-modal-kit?style=flat-square)](https://www.npmjs.com/package/rt-modal-kit)
+[![CI](https://github.com/Phe0nix/rt-modal-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/Phe0nix/rt-modal-kit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square)](LICENSE)
 
 A flexible, accessible modal for React with built-in light/dark themes, customizable layouts, and sensible accessibility defaults.
@@ -27,14 +28,15 @@ You can also import the component source directly if you copied the files into y
 
 ## 🚀 Basic Usage
 
-1. Import the component: `import Modal from './Modal'`.
+1. Import the component from the package: `import { Modal } from 'rt-modal-kit'`.
 2. Control visibility via state and pass a `close` callback.
 
 Example:
 
 ```tsx
 import { useState } from 'react'
-import Modal from './Modal'
+import { Modal } from 'rt-modal-kit'
+import 'rt-modal-kit/dist/index.css'
 
 function Page() {
   const [open, setOpen] = useState(false)
@@ -91,7 +93,7 @@ Below is a concise props reference. See the source for types and examples: [src/
 
 If you want a live example, open `src/App.tsx` or run the dev server.
 
-## 📦 Using in your project
+## 📦 Using source directly (optional)
 - Copy `src/Modal.tsx` and `src/Modal.module.scss` into your app.
 - Ensure your build supports CSS Modules. If not, convert the styles to plain CSS and import the class names accordingly.
 - The modal uses a React portal by default, so you do not need an extra wrapper element.
